@@ -74,10 +74,10 @@ After you've started the gNodeB, start the UE:
 
 ```
 sudo /var/tmp/oairan/cmake_targets/ran_build/build/nr-uesoftmodem -E \
-  --usrp-args "clock_source=external,type=x300"
   -O /var/tmp/etc/oai/ue.conf \
   -r 106 \
-  -C 3619200000
+  -C 3619200000 \
+  --usrp-args "clock_source=external,type=x300" \
   --band 78 \
   --numerology 1 \
   --ue-txgain 20 \
@@ -106,6 +106,7 @@ ping -I oaitun_ue1 192.168.70.135
 # from CN traffic generation service to UE
 docker exec -it oai-ext-dn ping <UE IP address>
 ```
+
 
 """
 

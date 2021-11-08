@@ -29,7 +29,7 @@ function setup_cn_node {
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
     sudo add-apt-repository -y ppa:wireshark-dev/stable
 
-    sudo apt-get update && sudo apt-get install -y \
+    sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo apt-get install -y \
         docker-ce \
         docker-ce-cli \
         containerd.io \
@@ -110,6 +110,11 @@ function configure_nodeb {
     fi
 }
 
+function configure_ue {
+    mkdir -p $SRCDIR/etc/oai
+    cp -r $ETCDIR/oai/* $SRCDIR/etc/oai/
+}
+
 if [ $NODE_ROLE == "cn" ]; then
     setup_cn_node
 elif [ $NODE_ROLE == "nodeb" ]; then
@@ -119,6 +124,7 @@ elif [ $NODE_ROLE == "nodeb" ]; then
 elif [ $NODE_ROLE == "ue" ]; then
     BUILD_ARGS="--UE --nrUE"
     setup_ran_node
+    configure_ue
 fi
 
 
