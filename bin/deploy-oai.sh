@@ -22,8 +22,8 @@ if [ -f $SRCDIR/oai-setup-complete ]; then
 fi
 
 function setup_cn_node {
-    # Install docker and docker compose
-    echo setting up cn
+    # Install docker, docker compose, wireshark/tshark
+    echo setting up cn node
     sudo apt-get update && sudo apt-get install -y \
       apt-transport-https \
       ca-certificates \
@@ -39,6 +39,7 @@ function setup_cn_node {
 
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
     sudo add-apt-repository -y ppa:wireshark-dev/stable
+    echo "wireshark-common wireshark-common/install-setuid boolean false" | sudo debconf-set-selections
 
     sudo DEBIAN_FRONTEND=noninteractive apt-get update && sudo apt-get install -y \
         docker-ce \
@@ -58,12 +59,17 @@ function setup_cn_node {
 
     sudo chmod +x /usr/local/bin/docker-compose
 
+    echo creating demo-oai bridge network...
     sudo docker network create \
       --driver=bridge \
       --subnet=192.168.70.128/26 \
       -o "com.docker.network.bridge.name"="demo-oai" \
       demo-oai-public-net
+    echo creating demo-oai bridge network... done.
 
+    echo pulling cn5g images...
+    sudo docker pull ubuntu:bionic
+    sudo docker pull mysql:5.7
     sudo docker pull rdefosseoai/oai-amf:v1.2.1
     sudo docker pull rdefosseoai/oai-nrf:v1.2.1
     sudo docker pull rdefosseoai/oai-spgwu-tiny:v1.1.4
@@ -79,19 +85,24 @@ function setup_cn_node {
     sudo docker image tag rdefosseoai/oai-udr:v1.2.1 oai-udr:latest
     sudo docker image tag rdefosseoai/oai-udm:v1.2.1 oai-udm:latest
     sudo docker image tag rdefosseoai/oai-ausf:v1.2.1 oai-ausf:latest
+    echo pulling cn5g images... done.
 
     sudo sysctl net.ipv4.conf.all.forwarding=1
     sudo iptables -P FORWARD ACCEPT
 
+    echo cloning and syncing oai-cn5g-fed...
     cd $SRCDIR
     git clone $OAI_CN5G_REPO oai-cn5g-fed
     cd oai-cn5g-fed
     git checkout $COMMIT_HASH
     ./scripts/syncComponents.sh
+    echo cloning and syncing oai-cn5g-fed... done.
+    echo setting up cn node... done.
 
 }
 
 function setup_ran_node {
+    echo cloning and building oai ran...
     cd $SRCDIR
     git clone $OAI_RAN_MIRROR oairan
     cd oairan
@@ -105,9 +116,11 @@ function setup_ran_node {
     cd cmake_targets
     ./build_oai -I
     ./build_oai -w USRP --build-lib all $BUILD_ARGS
+    echo cloning and building oai ran... done.
 }
 
 function configure_nodeb {
+    echo configuring nodeb...
     mkdir -p $SRCDIR/etc/oai
     cp -r $ETCDIR/oai/* $SRCDIR/etc/oai/
     LANIF=`ip r | awk '/192\.168\.1\.2/{print $3}'`
@@ -119,21 +132,24 @@ function configure_nodeb {
     else
       echo No LAN IFACE.. not updating nodeb config
     fi
+    echo configuring nodeb... done.
 }
 
 function configure_ue {
+    echo configuring ue...
     mkdir -p $SRCDIR/etc/oai
     cp -r $ETCDIR/oai/* $SRCDIR/etc/oai/
+    echo configuring ue... done.
 }
 
 if [ $NODE_ROLE == "cn" ]; then
     setup_cn_node
 elif [ $NODE_ROLE == "nodeb" ]; then
-    BUILD_ARGS="--eNB --gNB"
+    BUILD_ARGS="--gNB"
     setup_ran_node
     configure_nodeb
 elif [ $NODE_ROLE == "ue" ]; then
-    BUILD_ARGS="--UE --nrUE"
+    BUILD_ARGS="--nrUE"
     setup_ran_node
     configure_ue
 fi
