@@ -7,6 +7,17 @@ source $BINDIR/common.sh
 
 if [ -f $SRCDIR/oai-setup-complete ]; then
     echo "setup already ran; not running again"
+    if [ $NODE_ROLE == "cn" ]; then
+        sudo sysctl net.ipv4.conf.all.forwarding=1
+        sudo iptables -P FORWARD ACCEPT
+    elif [ $NODE_ROLE == "nodeb" ]; then
+        LANIF=`ip r | awk '/192\.168\.1\.2/{print $3}'`
+        if [ ! -z $LANIF ]; then
+          echo LAN IFACE is $LANIF...
+          echo adding route to CN
+          sudo ip route add 192.168.70.128/26 via 192.168.1.1 dev $LANIF
+        fi
+    fi
     exit 0
 fi
 
