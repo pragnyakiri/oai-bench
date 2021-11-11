@@ -11,19 +11,29 @@ tourDescription = """
 ## OAI 5G RF Bench
 
 This profile instantiates an experiment for testing OAI 5G in standalone mode
-using one of three controlled-RF test benches available on POWDER. The test
+using one of three Paired Radio Workbenches available on POWDER. The test
 benches are all identical and currently include two USRP X310s, each with a
 single UBX160 daughterboard, and a common 10 MHz clock and PPS reference
 provided by an OctoClock. The transceivers are connected via SMA cables through
-30 dB attenuators, providing for an interference free RF environment. Note:
-`bench_c` is for internal use only, so select `bench_a` or `bench_b` if you are
-not a POWDER team member.
+30 dB attenuators, providing for an interference free RF environment.
+
+Note: Select Workbench A or B if you are not a POWDER team member; Workbench C
+is for internal use only.
 
 The following will be deployed on server-class compute nodes:
 
 - Docker-based OAI 5G Core Network
 - OAI 5G gNodeB (fiber connection to 5GCN and X310)
 - OAI 5G nrUE (fiber connection to the other X310)
+
+#### Bleeding-edge Software Caveats!
+
+The OAI 5G RAN components are a work-in-progress at the time of writing this. In
+fact, this profile currently targets a feature branch that has yet to be merged
+into the mainline OAI develop branch. You are likely to see warnings, errors,
+crashes, etc, when running the NR soft modems. Please subscribe to the OAI user
+or developer mailing lists to monitor and ask questions about the current status
+of OAI 5G: https://gitlab.eurecom.fr/oai/openairinterface5g/-/wikis/MailingList.
 
 """
 
@@ -51,14 +61,14 @@ services are healthy before moving on.
 
 ```
 cd /var/tmp/oai-cn5g-fed/docker-compose
-python3 ./core-network.py --type start-mini --fqdn no --scenario 1
+sudo python3 ./core-network.py --type start-mini --fqdn no --scenario 1
 ```
 
 In yet another session, start following the logs for the AMF. This way you can
 see when the UE syncs with the network.
 
 ```
-docker logs -f oai-amf
+sudo docker logs -f oai-amf
 ```
 
 On `nodeb`:
@@ -80,9 +90,10 @@ sudo /var/tmp/oairan/cmake_targets/ran_build/build/nr-uesoftmodem -E \
   --usrp-args "clock_source=external,type=x300" \
   --band 78 \
   --numerology 1 \
-  --ue-txgain 20 \
-  --ue-rxgain 117 \
+  --ue-txgain 0 \
+  --ue-rxgain 104 \
   --nokrnmod \
+  --dlsch-parallel 4 \
   --sa
 ```
 
@@ -104,9 +115,21 @@ You should now be able to generate traffic in either direction:
 ping -I oaitun_ue1 192.168.70.135
 
 # from CN traffic generation service to UE
-docker exec -it oai-ext-dn ping <UE IP address>
+sudo docker exec -it oai-ext-dn ping <UE IP address>
 ```
 
+Known Issues:
+
+- The gNodeB and nrUE soft-modems may spam warnings/errors about missed DCI or
+  ULSCH detections. They may crash unexpectedly.
+
+- Exiting the OAI RAN processes with ctrl-c will often leave the SDR in a funny
+  state, so that the next time you start the nodeB/UE, it may crash with a UHD
+  error. If this happens, simply start the nodeB/UE again.
+
+- The UE may hang after ctrl-c in some cases, requiring you to kill it some
+  other way. If this happens, use `ps aux` to identify the PID of of the
+  nr-uesoftmodem process and do `kill -9 {PID}` to kill it.
 
 """
 
@@ -115,7 +138,7 @@ ETC_PATH = "/local/repository/etc"
 SRSLTE_IMG = "urn:publicid:IDN+emulab.net+image+PowderTeam:U18LL-SRSLTE"
 UBUNTU_IMG = "urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD"
 COMP_MANAGER_ID = "urn:publicid:IDN+emulab.net+authority+cm"
-DEFAULT_NR_RAN_HASH = "8b21ecc3a7de5e25d0a94a7dcd3453f47db5bb1c"
+DEFAULT_NR_RAN_HASH = "8082394371e5abcec8a7ab4cf501d79df6acd3e5"
 DEFAULT_NR_CN_HASH = "v1.2.1"
 OAI_DEPLOY_SCRIPT = os.path.join(BIN_PATH, "deploy-oai.sh")
 
@@ -135,7 +158,7 @@ pc.defineParameter(
     name="sdr_nodetype",
     description="Type of compute node paired with the SDRs",
     typ=portal.ParameterType.STRING,
-    defaultValue=node_types[0],
+    defaultValue=node_types[1],
     legalValues=node_types
 )
 
@@ -148,13 +171,13 @@ pc.defineParameter(
 )
 
 bench_ids = [
-    ("bench_a", "Controlled RF bench A"),
-    ("bench_b", "Controlled RF bench B"),
-    ("bench_c", "Controlled RF bench C (Powder staff only)"),
+    ("bench_a", "Paired Radio Workbench A"),
+    ("bench_b", "Paired Radio Workbench B"),
+    ("bench_c", "Paired Radio Workbench C (Powder staff only)"),
 ]
 pc.defineParameter(
     name="bench_id",
-    description="Which controlled RF test bench to use",
+    description="Which workbench bench to use",
     typ=portal.ParameterType.STRING,
     defaultValue=bench_ids[0],
     legalValues=bench_ids
