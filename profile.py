@@ -8,7 +8,7 @@ import geni.rspec.emulab.pnext as PN
 
 
 tourDescription = """
-## OAI 5G RF Bench
+## OAI 5G on POWDER Paired Radio Workbench
 
 This profile instantiates an experiment for testing OAI 5G in standalone mode
 using one of three Paired Radio Workbenches available on POWDER. The test
