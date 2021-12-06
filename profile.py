@@ -236,7 +236,7 @@ else:
     oai_ran_hash = DEFAULT_NR_RAN_HASH
 
 role = "nodeb"
-nodeb = request.RawPC(role)
+nodeb = request.RawPC("gnb-comp")
 nodeb.component_manager_id = COMP_MANAGER_ID
 nodeb.hardware_type = params.sdr_nodetype
 if params.sdr_compute_image:
@@ -256,7 +256,7 @@ nodeb.addService(rspec.Execute(shell="bash", command=cmd))
 nodeb.addService(rspec.Execute(shell="bash", command="/local/repository/bin/tune-cpu.sh"))
 nodeb.addService(rspec.Execute(shell="bash", command="/local/repository/bin/tune-sdr-iface.sh"))
 
-nodeb_sdr = request.RawPC("nodeb-sdr")
+nodeb_sdr = request.RawPC("gnb-sdr")
 nodeb_sdr.component_manager_id = COMP_MANAGER_ID
 nodeb_sdr.component_id = BENCH_SDR_IDS[params.bench_id][0]
 nodeb_sdr_if = nodeb_sdr.addInterface("nodeb-sdr-if")
@@ -267,7 +267,7 @@ nodeb_sdr_link.addInterface(nodeb_usrp_if)
 nodeb_sdr_link.addInterface(nodeb_sdr_if)
 
 role = "ue"
-ue = request.RawPC(role)
+ue = request.RawPC("nrue-comp")
 ue.component_manager_id = COMP_MANAGER_ID
 ue.hardware_type = params.sdr_nodetype
 if params.sdr_compute_image:
@@ -282,7 +282,7 @@ ue.addService(rspec.Execute(shell="bash", command=cmd))
 ue.addService(rspec.Execute(shell="bash", command="/local/repository/bin/tune-cpu.sh"))
 ue.addService(rspec.Execute(shell="bash", command="/local/repository/bin/tune-sdr-iface.sh"))
 
-ue_sdr = request.RawPC("ue-sdr")
+ue_sdr = request.RawPC("nrue-sdr")
 ue_sdr.component_manager_id = COMP_MANAGER_ID
 ue_sdr.component_id = BENCH_SDR_IDS[params.bench_id][1]
 ue_sdr_if = ue_sdr.addInterface("ue-sdr-if")
