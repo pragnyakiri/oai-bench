@@ -211,7 +211,7 @@ params = pc.bindParameters()
 request = pc.makeRequestRSpec()
 
 role = "cn"
-cn_node = request.RawPC(role)
+cn_node = request.RawPC("cn5g-docker-host")
 cn_node.component_manager_id = COMP_MANAGER_ID
 cn_node.hardware_type = params.cn_nodetype
 cn_node.disk_image = UBUNTU_IMG
