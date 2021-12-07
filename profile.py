@@ -135,7 +135,7 @@ Known Issues:
 
 BIN_PATH = "/local/repository/bin"
 ETC_PATH = "/local/repository/etc"
-SRSLTE_IMG = "urn:publicid:IDN+emulab.net+image+PowderTeam:U18LL-SRSLTE"
+LOWLAT_IMG = "urn:publicid:IDN+emulab.net+image+PowderTeam:U18LL-SRSLTE"
 UBUNTU_IMG = "urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD"
 COMP_MANAGER_ID = "urn:publicid:IDN+emulab.net+authority+cm"
 DEFAULT_NR_RAN_HASH = "8082394371e5abcec8a7ab4cf501d79df6acd3e5"
@@ -242,7 +242,7 @@ nodeb.hardware_type = params.sdr_nodetype
 if params.sdr_compute_image:
     nodeb.disk_image = params.sdr_compute_image
 else:
-    nodeb.disk_image = SRSLTE_IMG
+    nodeb.disk_image = LOWLAT_IMG
 
 nodeb_cn_if = nodeb.addInterface("nodeb-cn-if")
 nodeb_cn_if.addAddress(rspec.IPv4Address("192.168.1.2", "255.255.255.0"))
@@ -273,7 +273,7 @@ ue.hardware_type = params.sdr_nodetype
 if params.sdr_compute_image:
     ue.disk_image = params.sdr_compute_image
 else:
-    ue.disk_image = SRSLTE_IMG
+    ue.disk_image = LOWLAT_IMG
 
 ue_usrp_if = ue.addInterface("ue-usrp-if")
 ue_usrp_if.addAddress(rspec.IPv4Address("192.168.40.1", "255.255.255.0"))
