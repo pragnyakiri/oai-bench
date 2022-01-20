@@ -90,13 +90,13 @@ function setup_cn_node {
     sudo sysctl net.ipv4.conf.all.forwarding=1
     sudo iptables -P FORWARD ACCEPT
 
-    echo cloning and syncing oai-cn5g-fed...
+    echo cloning and syncing free5gc-compose...
     cd $SRCDIR
-    git clone $OAI_CN5G_REPO oai-cn5g-fed
-    cd oai-cn5g-fed
+    git clone $CN5G_REPO free5gc-compose
+    cd free5gc-compose
     git checkout $COMMIT_HASH
     ./scripts/syncComponents.sh
-    echo cloning and syncing oai-cn5g-fed... done.
+    echo cloning and syncing free5gc-compose... done.
     echo setting up cn node... done.
 
 }
