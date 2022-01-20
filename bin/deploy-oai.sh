@@ -67,26 +67,6 @@ function setup_cn_node {
       demo-oai-public-net
     echo creating demo-oai bridge network... done.
 
-    echo pulling cn5g images...
-    sudo docker pull ubuntu:bionic
-    sudo docker pull mysql:5.7
-    sudo docker pull rdefosseoai/oai-amf:v1.2.1
-    sudo docker pull rdefosseoai/oai-nrf:v1.2.1
-    sudo docker pull rdefosseoai/oai-spgwu-tiny:v1.1.4
-    sudo docker pull rdefosseoai/oai-smf:v1.2.1
-    sudo docker pull rdefosseoai/oai-udr:v1.2.1
-    sudo docker pull rdefosseoai/oai-udm:v1.2.1
-    sudo docker pull rdefosseoai/oai-ausf:v1.2.1
-
-    sudo docker image tag rdefosseoai/oai-amf:v1.2.1 oai-amf:latest
-    sudo docker image tag rdefosseoai/oai-nrf:v1.2.1 oai-nrf:latest
-    sudo docker image tag rdefosseoai/oai-smf:v1.2.1 oai-smf:latest
-    sudo docker image tag rdefosseoai/oai-spgwu-tiny:v1.1.4 oai-spgwu-tiny:latest
-    sudo docker image tag rdefosseoai/oai-udr:v1.2.1 oai-udr:latest
-    sudo docker image tag rdefosseoai/oai-udm:v1.2.1 oai-udm:latest
-    sudo docker image tag rdefosseoai/oai-ausf:v1.2.1 oai-ausf:latest
-    echo pulling cn5g images... done.
-
     sudo sysctl net.ipv4.conf.all.forwarding=1
     sudo iptables -P FORWARD ACCEPT
 
@@ -95,7 +75,7 @@ function setup_cn_node {
     git clone $CN5G_REPO free5gc-compose
     cd free5gc-compose
     git checkout $COMMIT_HASH
-    ./scripts/syncComponents.sh
+    #./scripts/syncComponents.sh
     echo cloning and syncing free5gc-compose... done.
     echo setting up cn node... done.
 

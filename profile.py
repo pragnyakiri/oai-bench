@@ -22,7 +22,7 @@ is for internal use only.
 
 The following will be deployed on server-class compute nodes:
 
-- Docker-based OAI 5G Core Network
+- Docker-based free5gc 5G Core Network
 - OAI 5G gNodeB (fiber connection to 5GCN and X310)
 - OAI 5G nrUE (fiber connection to the other X310)
 
@@ -139,7 +139,7 @@ LOWLAT_IMG = "urn:publicid:IDN+emulab.net+image+PowderTeam:U18LL-SRSLTE"
 UBUNTU_IMG = "urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD"
 COMP_MANAGER_ID = "urn:publicid:IDN+emulab.net+authority+cm"
 DEFAULT_NR_RAN_HASH = "8082394371e5abcec8a7ab4cf501d79df6acd3e5"
-DEFAULT_NR_CN_HASH = "v1.2.1"
+DEFAULT_NR_CN_HASH = "v2021-12-14-01"
 OAI_DEPLOY_SCRIPT = os.path.join(BIN_PATH, "deploy-oai.sh")
 
 BENCH_SDR_IDS = {
