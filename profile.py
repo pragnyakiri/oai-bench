@@ -68,7 +68,7 @@ In yet another session, start following the logs for the AMF. This way you can
 see when the UE syncs with the network.
 
 ```
-sudo docker logs -f oai-amf
+sudo docker logs -f amf
 ```
 
 On `nodeb`:
