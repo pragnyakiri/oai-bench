@@ -77,6 +77,8 @@ function setup_cn_node {
     git checkout $COMMIT_HASH
     #./scripts/syncComponents.sh
     echo cloning and syncing free5gc-compose... done.
+    make base
+    docker-compose build
     echo setting up cn node... done.
 
 }
