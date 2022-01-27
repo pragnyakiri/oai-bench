@@ -1,9 +1,9 @@
 set -ex
-COMMIT_HASH=$1
-NODE_ROLE=$2
-BINDIR=`dirname $0`
-ETCDIR=/local/repository/etc
-source $BINDIR/common.sh
+#COMMIT_HASH=$1
+#NODE_ROLE=$2
+#BINDIR=`dirname $0`
+#ETCDIR=/local/repository/etc
+#source $BINDIR/common.sh
 
 if [ -f $SRCDIR/oai-setup-complete ]; then
     echo "setup already ran; not running again"
