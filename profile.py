@@ -137,6 +137,7 @@ BIN_PATH = "/local/repository/bin"
 ETC_PATH = "/local/repository/etc"
 LOWLAT_IMG = "urn:publicid:IDN+emulab.net+image+PowderTeam:U18LL-SRSLTE"
 UBUNTU_IMG = "urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD"
+UBUNTU1_IMG = "urn:publicid:IDN+emulab.net+image+reu2020:ubuntu1864std50023generic"
 COMP_MANAGER_ID = "urn:publicid:IDN+emulab.net+authority+cm"
 DEFAULT_NR_RAN_HASH = "8082394371e5abcec8a7ab4cf501d79df6acd3e5"
 DEFAULT_NR_CN_HASH = "1d0ab4b54b3a0ab247d1a2d140b44b3ddd155fa8"
@@ -214,7 +215,7 @@ role = "cn"
 cn_node = request.RawPC("cn5g-docker-host")
 cn_node.component_manager_id = COMP_MANAGER_ID
 cn_node.hardware_type = params.cn_nodetype
-cn_node.disk_image = UBUNTU_IMG
+cn_node.disk_image = UBUNTU1_IMG
 cn_if = cn_node.addInterface("cn-if")
 cn_if.addAddress(rspec.IPv4Address("192.168.1.1", "255.255.255.0"))
 cn_link = request.Link("cn-link")
