@@ -227,8 +227,8 @@ if params.oai_cn_commit_hash:
 else:
     oai_cn_hash = DEFAULT_NR_CN_HASH
 
-cmd = '{} "{}" {}'.format(OAI_DEPLOY_SCRIPT, oai_cn_hash, role)
-cn_node.addService(rspec.Execute(shell="bash", command=cmd))
+#cmd = '{} "{}" {}'.format(OAI_DEPLOY_SCRIPT, oai_cn_hash, role)
+#cn_node.addService(rspec.Execute(shell="bash", command=cmd))
 
 
 if params.oai_ran_commit_hash:
