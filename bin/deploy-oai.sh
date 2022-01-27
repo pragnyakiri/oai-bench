@@ -7,9 +7,9 @@ source $BINDIR/common.sh
 
 if [ -f $SRCDIR/oai-setup-complete ]; then
     echo "setup already ran; not running again"
-    if [ $NODE_ROLE == "cn" ]; then
-        sudo sysctl net.ipv4.conf.all.forwarding=1
-        sudo iptables -P FORWARD ACCEPT
+    #if [ $NODE_ROLE == "cn" ]; then
+    #    sudo sysctl net.ipv4.conf.all.forwarding=1
+    #    sudo iptables -P FORWARD ACCEPT
     elif [ $NODE_ROLE == "nodeb" ]; then
         LANIF=`ip r | awk '/192\.168\.1\.2/{print $3}'`
         if [ ! -z $LANIF ]; then
@@ -128,7 +128,7 @@ function configure_ue {
 }
 
 if [ $NODE_ROLE == "cn" ]; then
-    setup_cn_node
+    #setup_cn_node
 elif [ $NODE_ROLE == "nodeb" ]; then
     BUILD_ARGS="--gNB"
     setup_ran_node
