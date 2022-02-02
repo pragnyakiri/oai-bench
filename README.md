@@ -8,6 +8,7 @@ OAI UE - X310 (node 3)
 
 # Start CN:
 cd /var/tmp/free5gc-compose/
+
 sudo docker-compose up -d
 
 sudo docker logs -f amf
