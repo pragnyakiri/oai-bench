@@ -66,6 +66,13 @@ function setup_cn_node {
     
     sudo chmod +x /usr/local/bin/docker-compose
 
+    git clone https://github.com/PrinzOwO/gtp5g.git
+    cd gtp5g
+    make
+    sudo make install
+
+    cd ..
+
     echo creating demo-oai bridge network...
     sudo docker network create \
       --driver=bridge \
