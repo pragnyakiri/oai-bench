@@ -140,7 +140,8 @@ UBUNTU_IMG = "urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU18-64-STD"
 UBUNTU1_IMG = "urn:publicid:IDN+emulab.net+image+reu2020:ubuntu1864std50023generic"
 COMP_MANAGER_ID = "urn:publicid:IDN+emulab.net+authority+cm"
 DEFAULT_NR_RAN_HASH = "8082394371e5abcec8a7ab4cf501d79df6acd3e5"
-DEFAULT_NR_CN_HASH = "1d0ab4b54b3a0ab247d1a2d140b44b3ddd155fa8"
+#DEFAULT_NR_CN_HASH = "1d0ab4b54b3a0ab247d1a2d140b44b3ddd155fa8"
+DEFAULT_NR_CN_HASH = "6ff269ff51b7226e7cb097383f6662365bde4444"
 OAI_DEPLOY_SCRIPT = os.path.join(BIN_PATH, "deploy-oai.sh")
 
 BENCH_SDR_IDS = {
