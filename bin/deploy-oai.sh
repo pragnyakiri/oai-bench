@@ -1,9 +1,7 @@
 set -ex
 COMMIT_HASH=$1
 NODE_ROLE=$2
-#BINDIR=`dirname $0`
 ETCDIR=/local/repository/etc
-#source $BINDIR/common.sh
 SRCDIR=/var/tmp
 CFGDIR=/local/repository/etc
 OAI_RAN_MIRROR="https://gitlab.flux.utah.edu/powder-mirror/openairinterface5g"
@@ -37,9 +35,10 @@ function setup_cn_node {
       gnupg \
       lsb-release
 
-    printf "adding docker gpg key"
-    until curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -; do
-        printf '.'
+    echo "adding docker gpg key"
+    until curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    do
+        echo "."
         sleep 2
     done
 
@@ -55,11 +54,13 @@ function setup_cn_node {
         tshark
 
     sudo systemctl enable docker
-    sudo usermod -aG docker $USER
+    echo "sudo usermod -aG docker $USER"
+    #sudo usermod -aG docker $USER
 
-    printf "installing compose"
-    until sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose; do
-        printf '.'
+    echo "installing compose"
+    until sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    do
+        echo "."
         sleep 2
     done
     
