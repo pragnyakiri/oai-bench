@@ -11,6 +11,10 @@ cd /var/tmp/free5gc-compose/
 
 sudo docker-compose up -d
 
+sudo docker exec -it amf sh
+
+ifconfig 
+
 sudo docker logs -f amf
 
 # Start gnodeb:
