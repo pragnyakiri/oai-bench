@@ -67,7 +67,7 @@ function setup_cn_node {
     sudo chmod +x /usr/local/bin/docker-compose
 
     #Install gtp5g for upf to work
-    git clone https://github.com/PrinzOwO/gtp5g.git
+    git clone https://github.com/PrinzOwO/gtp5g.git gtp5g
     cd gtp5g
     make
     sudo make install
