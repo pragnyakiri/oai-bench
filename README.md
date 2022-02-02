@@ -23,7 +23,9 @@ sudo /var/tmp/oairan/cmake_targets/ran_build/build/nr-softmodem -E   -O /var/tmp
 
 # Start UE
 
-After you've started the gNodeB, start the UE:
+Add UE details in free5gc console
+
+Then run UE:
 
 sudo /var/tmp/oairan/cmake_targets/ran_build/build/nr-uesoftmodem -E   -O /var/tmp/etc/oai/ue.conf   -r 106   -C 3619200000   --usrp-args "clock_source=external,type=x300"   --band 78   --numerology 1   --ue-txgain 0   --ue-rxgain 104   --nokrnmod   --dlsch-parallel 4   --sa
 
