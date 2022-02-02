@@ -21,6 +21,7 @@ sudo /var/tmp/oairan/cmake_targets/ran_build/build/nr-softmodem -E   -O /var/tmp
 After you've started the gNodeB, start the UE:
 
 sudo /var/tmp/oairan/cmake_targets/ran_build/build/nr-uesoftmodem -E   -O /var/tmp/etc/oai/ue.conf   -r 106   -C 3619200000   --usrp-args "clock_source=external,type=x300"   --band 78   --numerology 1   --ue-txgain 0   --ue-rxgain 104   --nokrnmod   --dlsch-parallel 4   --sa
+
 After the UE associates, open another session and add the following route. Also check the UE IP address.
 
 # add route
@@ -28,6 +29,7 @@ sudo route add -net 192.168.70.0/24 dev oaitun_ue1
 
 # check UE IP address
 ifconfig oaitun_ue1
+
 You should now be able to generate traffic in either direction:
 
 # from UE to CN traffic gen node (in session on ue node)
