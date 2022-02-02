@@ -73,8 +73,6 @@ function setup_cn_node {
     make
     sudo make install
 
-    cd ..
-
     echo creating demo-oai bridge network...
     sudo docker network create \
       --driver=bridge \
