@@ -23,6 +23,8 @@ Edit gnb conf file with IP address of docker amf
 
 ```
 vim /var/tmp/etc/oai/gnb.sa.band78.fr1.106PRB.usrpx310.conf
+```
+```
 sudo /var/tmp/oairan/cmake_targets/ran_build/build/nr-softmodem -E   -O /var/tmp/etc/oai/gnb.sa.band78.fr1.106PRB.usrpx310.conf --sa
 ```
 
