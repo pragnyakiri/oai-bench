@@ -1,9 +1,11 @@
-# oai-bench
+# ULCL scenario - Free5gc CN, OAI RAN
 
 This repository is for creating a new profile in Powder platform.
 
 Free5gc docker - CN (node 1)
+
 OAI RAN - X310 (node 2)
+
 OAI UE - X310 (node 3)
 
 # Start CN:
